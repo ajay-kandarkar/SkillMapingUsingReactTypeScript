@@ -1,5 +1,6 @@
 import React, {useState,useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const Login: React.FC = () => {
     interface logininformation {  
         email: String;  
@@ -9,24 +10,32 @@ const Login: React.FC = () => {
         email : "",
         password : "",
     })
-    const [getLoginInformation,setGetloginInformation] = useState([]);
+    const navigate = useNavigate();
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/get-login`)
         .then((response) => {
-            setGetloginInformation(response.data);
         })
         .catch((error) => {
             console.error('Error fetching login details', error);
         })  
     }, []);
+
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) =>{
           setLoginInformation({
             ...loginInformation,
             [e.target.name]: e.target.value 
           })
     }
-     const handleSubmit =() =>{  
-         
+    const handleSubmit = async () => {
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/login`, loginInformation);
+            const token = response.data.token;
+            localStorage.setItem('token', token);
+            navigate('/home');
+        } catch (error) {
+            console.error('Error logging in:', error);
+
+        }
     }
     return (
         <>

@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState} from 'react'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 const Registration: React.FC = () => {
     interface registrationInformation {
         firstname: String,
@@ -26,7 +25,6 @@ const Registration: React.FC = () => {
         password: "",
         isChecked: "",
     });
-    const navigate = useNavigate();
     const handleChangeCheckBox = () => {
         setRegistrationInfromation((prevRegisterInfo) => ({
             ...registrationInfromation,
@@ -38,7 +36,7 @@ const Registration: React.FC = () => {
             delete updatedErrors['isChecked'];
             return updatedErrors;
         });
-    };
+    };   
     const handleSubmit = () => {
         const validationErrors : any = {};
         if (!registrationInfromation.firstname.trim()) {
@@ -59,7 +57,6 @@ const Registration: React.FC = () => {
         if (!registrationInfromation.password) {
             validationErrors.password = 'Password is required';
         }
-        console.log(Object.keys(validationErrors).length)
         setError(validationErrors);
         if (Object.keys(validationErrors).length > 0) {
             return;
@@ -73,13 +70,11 @@ const Registration: React.FC = () => {
             password: registrationInfromation.password || "",
         })
             .then((response) => {
-                console.log('Patient details: ', response.data);
-                 
+                console.log('Registration Details : ', response.data); 
             })
             .catch((error) => {
                 console.error('Error inserting registration details', error);
             });
-            navigate("/");
     }
     const handleInputChange = (fieldName: string, value: string) => {
         setRegistrationInfromation((prevRegistrationInfo) => ({
@@ -127,7 +122,6 @@ const Registration: React.FC = () => {
                             }
                         });
                         break;
-
                         case 'password':
                         setError((prevErrors:any) => {
                             if (value.trim()) {
