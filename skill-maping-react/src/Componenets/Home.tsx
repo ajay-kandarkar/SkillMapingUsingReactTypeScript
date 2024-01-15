@@ -1,7 +1,12 @@
+import Navbar from "./Navbar";
+import Header from "./Header";
+import Footer from "./Footer";
 export default function Home() {
   return (
     <>
-      <h1 className="text-center">Welcome your website!</h1>
+      <Navbar></Navbar>
+      <Header></Header>
+      <Footer></Footer>
     </>
   )
 }

@@ -62,11 +62,11 @@ const Registration: React.FC = () => {
             return;
         }
         axios.post(`${process.env.REACT_APP_BASE_URL}/register`, {
-            firstname: registrationInfromation.firstname || "",
-            lastname: registrationInfromation.lastname || "",
+            firstName: registrationInfromation.firstname || "",
+            lastName: registrationInfromation.lastname || "",
             phone: registrationInfromation.phone || "",
             email: registrationInfromation.email || "",
-            ischeck: registrationInfromation.ischecked || "",
+            isCheck: registrationInfromation.ischecked || "",
             password: registrationInfromation.password || "",
         })
             .then((response) => {

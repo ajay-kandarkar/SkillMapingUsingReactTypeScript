@@ -2,11 +2,11 @@ import React, {useState,useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 const Login: React.FC = () => {
-    interface logininformation {  
+    interface IloginInformation {  
         email: String;  
         password: String;  
     } 
-    const[loginInformation,setLoginInformation] = useState<logininformation>({
+    const[loginInformation,setLoginInformation] = useState<IloginInformation>({
         email : "",
         password : "",
     })
@@ -26,7 +26,7 @@ const Login: React.FC = () => {
             [e.target.name]: e.target.value 
           })
     }
-    const handleSubmit = async () => {
+    const handleSubmit = async () => {  
         try {
             const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/login`, loginInformation);
             const token = response.data.token;
@@ -37,6 +37,9 @@ const Login: React.FC = () => {
 
         }
     }
+            
+         console.log(localStorage.getItem("token"));
+
     return (
         <>
           <div className='container col-md-4 col-sm-8 col-12 m-3 p-3 mx-auto p-5'>
