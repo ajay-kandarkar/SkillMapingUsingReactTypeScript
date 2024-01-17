@@ -1,38 +1,43 @@
+import { Link, useNavigate } from "react-router-dom";
 export default function Navbar() {
-    
-
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  };
   return (
-  <>
-       <nav className="navbar navbar-expand-lg navbar-light p-0" style={{ backgroundColor: 'rgb(28 175 200)' }}>
-     <a className="navbar-brand" href="#">
-      <img src=".\Images\incubLogo.png" alt="" width="50" height="45" className="d-inline-block align-text-top"/>
-    </a>
-  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span className="navbar-toggler-icon"></span>
-  </button>
-  <div className="collapse navbar-collapse" id="navbarNav">
-    <ul className="navbar-nav">
-      <li className="nav-item active">
-        <a className="nav-link" href="/home">Home <span className="sr-only">(current)</span></a>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link" href="/registration">Register</a>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link" href="/">Login</a>
-      </li>
-    </ul>
-  </div>
-     <form className="d-flex p-2">
-    <div className="input-group mb-3">
-  <input type="search"  className="form-control mr-sm-2" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
-  <div className="input-group-append">
-    <button className="btn btn-success" type="button">Search</button>
-  </div>
-</div>
-    </form>
-</nav>
-  </>
-  )
+
+    <> 
+        <nav className="navbar navbar-expand-sm navbar-light p-0" style={{ backgroundColor: 'rgb(28 175 200)' }}>
+      <Link to="/" className="navbar-brand">
+        <img src=".\Images\incubLogo.png" alt="" width="50" height="45" className="d-inline-block align-text-top" />
+      </Link>
+      <ul className="nav nav-pills mb-3 navbar-light p-0" id="pills-tab" role="tablist">
+        <li className="nav-item" role="presentation">
+          <Link to="/home" className="nav-link active" role="tab" aria-controls="pills-home" aria-selected="true">
+            <h5 className="text-black-50">Home</h5>
+          </Link>
+        </li>
+        <li className="nav-item" role="presentation">
+          <Link to="/userInformation" className="nav-link" role="tab" aria-controls="pills-userinformation" aria-selected="false">
+            <h5 className="text-black-50">User Information</h5>
+          </Link>
+        </li>
+        <li className="nav-item" role="presentation">
+          <button className="nav-link" onClick={handleLogout} role="tab" aria-controls="pills-logout" aria-selected="false">
+            <h5 className="text-black-50">Logout</h5>
+          </button>
+        </li>
+      </ul>
+      <div className="tab-content" id="pills-tabContent">
+        <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">...</div>
+        <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">...</div>
+        <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
+      </div>
+    </nav>
+            
+    </>
+          
+  );
 }
 
