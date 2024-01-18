@@ -12,7 +12,6 @@ const RegistrationConfirm = () => {
           console.error('Error fetching login details', error);
       })   
     },[userId]);
-
   return (
     <div>
         <div className='container mx-auto m-5 p-5 col-5'>

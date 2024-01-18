@@ -1,68 +1,70 @@
-import React from 'react'
-
 export default function Footer() {
   return (
-   <>
-   <div className='card'>
-   <footer className="py-5 px-5">
-    <div className="row">
-      <div className="col-2">
-        <h5>Section</h5>
-        <ul className="nav flex-column">
-          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Home</a></li>
-          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Features</a></li>
-          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Pricing</a></li>
-          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">FAQs</a></li>
-          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">About</a></li>
-        </ul>
-      </div>
-
-      <div className="col-2">
-        <h5>Section</h5>
-        <ul className="nav flex-column">
-          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Home</a></li>
-          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Features</a></li>
-          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Pricing</a></li>
-          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">FAQs</a></li>
-          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">About</a></li>
-        </ul>
-      </div>
-
-      <div className="col-2">
-        <h5>Section</h5>
-        <ul className="nav flex-column">
-          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Home</a></li>
-          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Features</a></li>
-          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Pricing</a></li>
-          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">FAQs</a></li>
-          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">About</a></li>
-        </ul>
-      </div>
-
-      <div className="col-4 offset-1">
-        <form>
-          <h5>Subscribe to our newsletter</h5>
-          <p>Monthly digest of whats new and exciting from us.</p>
-          <div className="d-flex w-100 gap-2">
-            <label htmlFor="newsletter1" className="visually-hidden">Email address</label>
-            <input id="newsletter1" type="text" className="form-control" placeholder="Email address"/>
-            <button className="btn btn-primary" type="button">Subscribe</button>
+    <>
+      <div className="container-fluid mt-5">
+        <div className="row mb-4 ">
+          <div className="col-md-4 col-sm-11 col-xs-11">
+            <div className="footer-text pull-left">
+              <div className="d-flex">
+                <h1 className="font-weight-bold mr-2 px-3" style={{ backgroundColor: "#957bda" }}> I </h1>
+                <h1 style={{ color: "#957bda" }}>ncubexperts</h1>
+              </div>
+              <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi non pariatur numquam animi nam at impedit odit nisi.</p>
+              <div className="social mt-2 mb-3">
+                <i className="fa fa-facebook-official fa-lg" ></i>
+                <i className="fa fa-instagram fa-lg"></i>
+                <i className="fa fa-twitter fa-lg"></i>
+                <i className="fa fa-linkedin-square fa-lg"></i>
+                <i className="fa fa-facebook"></i>
+              </div>
+            </div>
           </div>
-        </form>
+          <div className="col-md-2 col-sm-1 col-xs-1 mb-2"></div>
+          <div className="col-md-2 col-sm-4 col-xs-4">
+            <h5 className="heading">Services</h5>
+            <ul >
+              <li>IT Consulting -</li>
+              <li>Development</li>
+              <li>Cloud</li>
+              <li>DevOps & Support</li>
+            </ul>
+          </div>
+          <div className="col-md-2 col-sm-4 col-xs-4">
+            <h5 className="heading">Industries</h5>
+            <ul className="card-text">
+              <li>Finance</li>
+              <li>Public Sector</li>
+              <li>Smart Office</li>
+              <li>Retail</li>
+            </ul>
+          </div>
+          <div className="col-md-2 col-sm-4 col-xs-4">
+            <h5 className="heading">Company</h5>
+            <ul className="card-text">
+              <li>About Us</li>
+              <li>Blog</li>
+              <li>Contact</li>
+              <li>Join Us</li>
+            </ul>
+          </div>
+        </div>
+        <div className="divider mb-4" >
+        </div>
+        <div className="row" style={{ fontSize: "10px" }}>
+          <div className="col-md-6 col-sm-6 col-xs-6">
+            <div className="pull-left">
+              <p><i className="fa fa-copyright"></i> 2020 thezpdesign</p>
+            </div>
+          </div>
+          <div className="col-md-6 col-sm-6 col-xs-6">
+            <div className="pull-right mr-4 d-flex policy">
+              <div>Terms of Use</div>
+              <div>Privacy Policy</div>
+              <div>Cookie Policy</div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-
-    <div className="d-flex justify-content-between py-4 my-4 border-top">
-      <p>© 2021 Company, Inc. All rights reserved.</p>
-      <ul className="list-unstyled d-flex">
-        <li className="ms-3"><a className="link-dark" href="#"><svg className="bi" width="24" height="24"></svg></a></li>
-        <li className="ms-3"><a className="link-dark" href="#"><svg className="bi" width="24" height="24"></svg></a></li>
-        <li className="ms-3"><a className="link-dark" href="#"><svg className="bi" width="24" height="24"></svg></a></li>
-      </ul>
-    </div>
-  </footer>
-   </div>
-    
-   </>
+    </>
   )
 }
