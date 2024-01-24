@@ -1,7 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 const Navbar = () => {
   const navigate = useNavigate();
-
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/');
@@ -41,7 +40,6 @@ const Navbar = () => {
         <div className="tab-pane fade" id="user-register" role="tabpanel" aria-labelledby="user-register-tab">
           <h5 className='p-2 text-info'>Register User</h5>
         </div>
-
       </div>
     </div>
   );

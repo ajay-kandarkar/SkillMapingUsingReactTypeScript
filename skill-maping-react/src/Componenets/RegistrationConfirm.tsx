@@ -1,29 +1,30 @@
 import axios from 'axios'
 import React, { useEffect } from 'react'
+import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 const RegistrationConfirm = () => {
   const { userId } = useParams();
-    useEffect(() => {
-      axios.get(`${process.env.REACT_APP_BASE_URL}/mail-verification/${userId}`)
+  useEffect(() => {
+    axios.get(`${process.env.REACT_APP_BASE_URL}/mail-verification/${userId}`)
       .then((response) => {
-          console.log("information",response.data);
+          toast.success(response.data.message)   
       })
       .catch((error) => {
-          console.error('Error fetching login details', error);
-      })   
-    },[userId]);
+         toast.warning(error.response.data.error)
+      })
+  }, [userId]);
   return (
     <div>
-        <div className='container mx-auto m-5 p-5 col-5'>
-            <div className='card'>
-                <div className='card-header text-center'>
-                <h6>Welcome you are succesfully Register!!!</h6>
-                </div>
-            <div className='card-body text-center'>
-                   <a href='/'><h6>Click here to Login</h6></a>
-            </div>
-            </div>
+      <div className='container mx-auto m-5 p-5 col-5'>
+        <div className='card'>
+          <div className='card-header text-center'>
+            <h6>Welcome you are succesfully Register!!!</h6>
+          </div>
+          <div className='card-body text-center'>
+            <a href='/'><h6>Click here to Login</h6></a>
+          </div>
         </div>
+      </div>
     </div>
   )
 }
