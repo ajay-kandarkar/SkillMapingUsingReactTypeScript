@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import ForgetPasswordModel from './ForgetPasswordModel';
-import { useDispatch} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../Store/AuthSlice';
 const Login: React.FC = () => {
     interface IloginInformation {
@@ -38,7 +38,7 @@ const Login: React.FC = () => {
     return (
         <>
             <div className='container col-md-4 col-sm-8 col-12 m-3 p-3 mx-auto p-5'>
-                <div className='card'>
+                <div className='card cardBagroundcolor'>
                     <form>
                         <div className='card-header text-center'>
                             <h2>Login</h2>

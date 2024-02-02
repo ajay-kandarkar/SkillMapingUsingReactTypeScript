@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 const getCharacterValidationError = (charType: string) => {
   return `Your password must have at least 1 ${charType} character`;
 };
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 const ValidationSchema = Yup.object().shape({
   firstName: Yup.string()
     .required('First name is required')
@@ -15,14 +16,14 @@ const ValidationSchema = Yup.object().shape({
     .matches(/^[A-Za-z]+$/, 'Last name should contain only characters'),
   phone: Yup.string()
     .required('Mobile number is required')
-    .matches(/^\d{10}$/, 'Phone number should be exactly 10 digits'),
+    .matches(phoneRegExp, 'Phone number is not valid'),
   email: Yup.string()
     .required('Email is required')
     .email('Invalid email address'),
   isChecked: Yup.boolean().oneOf([true], 'You must agree to the Terms and Conditions'),
   password: Yup.string().required('Password is required')
-  .min(8, "Password must have at least 8 characters")
-  .matches(/[0-9]/, getCharacterValidationError("digit"))
+    .min(8, "Password must have at least 8 characters")
+    .matches(/[0-9]/, getCharacterValidationError("digit"))
     .matches(/[a-z]/, getCharacterValidationError("lowercase"))
     .matches(/[A-Z]/, getCharacterValidationError("uppercase"))
     .matches(/[!@#$%&*]/, getCharacterValidationError("special symbol")),

@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useFormik } from 'formik';
 import { useLocation, useNavigate } from "react-router-dom";
-import ValidationSchema from "./ValidationSchema/ValidationSchema";
+import ValidationSchema from "./Validations/ValidationSchemaChangePassword";
 export default function ChangePasswordModel() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -28,9 +28,11 @@ export default function ChangePasswordModel() {
       }
     },
   });
+
   const goToLogin = () => {
     navigate("/")
   }
+
   return (
     <>
       <div className="container p-5 col-4">

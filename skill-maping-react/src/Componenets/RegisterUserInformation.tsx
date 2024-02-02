@@ -4,6 +4,7 @@ import '../App.css';
 import { toast } from "react-toastify";
 export default function RegisterUserInformation() {
   interface IUser {
+    id : number
     first_name: "",
     last_name: "",
     phone: "",
@@ -13,17 +14,19 @@ export default function RegisterUserInformation() {
   const [order, setOrder] = useState("Asc");
   const [searchRegister, setSearchRegister] = useState("");
   const [registerUser, setRegisterUser] = useState<IUser[]>([{
+    id: 0,
     first_name: "",
     last_name: "",
     phone: "",
     email: "",
     is_confirmed: ""
   }]);
-
+       
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_BASE_URL}/get-register-user`)
       .then((response) => {
         setRegisterUser(response.data[0]);
+        localStorage.setItem('registerid', `${registerUser[0].id}`);
       })
       .catch((error) => {
         if (error) {
@@ -41,17 +44,16 @@ export default function RegisterUserInformation() {
   };
   
   return (
-    <div className="container">
-      <div className='d-flex justify-content-end p-3'>
-        <div className='input-group w-25'>
-          <input className="form-control w-25" type="search" placeholder="Search" aria-label="Search"
+    <div className="p-2">
+      <div className='d-flex justify-content-end py-3'>
+        <div className='input-group w-auto'>
+          <input className="form-control " type="search" placeholder="Search" aria-label="Search"
             onChange={(e) => setSearchRegister(e.target.value)}></input>
-          <button className="btn btn-success me-1" type="submit">Search</button>
         </div>
       </div>
-      <table className="table table-hover  table-bordered">
+      <table className="table table-hover  table-bordered ">
         <thead>
-          <tr>
+          <tr className="backgroundColor">
             <th scope="col">Index
             </th>
             <th scope="col" onClick={() => sorting("first_name")}>First name

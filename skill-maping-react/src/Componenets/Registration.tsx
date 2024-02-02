@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
-import ValidationSchema from './ValidationSchema/ValidationSchema';
-import axios from 'axios';
+import ValidationSchema from './Validations/ValidationSchema';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 const Registration = () => {
     const initialValues = {
         firstName: '',
@@ -9,39 +9,35 @@ const Registration = () => {
         phone: '',
         email: '',
         password: '',
-        isChecked: false,
+        isChecked: "",
         confirmPassword: '',
     };
-
-    const {
-        values,errors,touched,handleBlur,handleChange,handleSubmit,} = useFormik({
+    
+    const formik = useFormik({
         initialValues: initialValues,
         validationSchema: ValidationSchema,
-        onSubmit: (values) => {
-            axios.post(`${process.env.REACT_APP_BASE_URL}/register`, {
-                firstName: values.firstName || '',
-                lastName: values.lastName || '',
-                phone: values.phone || '',
-                email: values.email || '',
-                isCheck: values.isChecked || '',
-                password: values.password || '',
-            })
-                .then((response) => {
-                    console.log(response)
-                    toast.success(response.data.message);
-                })
-                .catch((error) => {
-                    if (error.response) {
-                        toast.error(error.response.data.error);
-                    }
+        onSubmit: async (values) => {
+            try {
+                const response = await axios.post(`http://localhost:8081/register`, {
+                    firstName: values.firstName || '',
+                    lastName: values.lastName || '',
+                    phone: values.phone || '',
+                    email: values.email || '',
+                    isCheck: values.isChecked || '',
+                    password: values.password || '',
                 });
+                toast.success(response.data.message);
+            } catch (error: any) {
+                console.error('Axios error:', error);
+                toast.error(error.response?.data?.error || 'An error occurred.');
+            }
         },
     });
     return (
         <>
             <div className="container col-md-4 col-sm-8 col-12 m-3 p-3 mx-auto p-5">
                 <div className="card">
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={formik.handleSubmit}>
                         <div className="card-header text-center">
                             <h4>Registration</h4>
                         </div>
@@ -49,18 +45,20 @@ const Registration = () => {
                             <div className="mb-3">
                                 <label className="form-label" htmlFor="firstName">
                                     First Name
-                                    <span style={{ color: 'red' }}>*</span>
+                                    <span className='text-danger'>*</span>
                                 </label>
-                            <input type="text" id="firstName"
+                                <input type="text" id="firstName"
                                     name="firstName"
                                     className="form-control"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.firstName}
                                 />
-                                {errors.firstName && touched.firstName ? (
+                                {formik.errors.firstName && formik.touched.firstName ? (
                                     <p className="text-danger">
-                                        {errors.firstName}
-                                    </p>) : null
+                                        {formik.errors.firstName}
+                                    </p>
+                                ) : null
                                 }
                             </div>
                             <div className="mb-3">
@@ -73,13 +71,15 @@ const Registration = () => {
                                     id="lastname"
                                     name="lastName"
                                     className="form-control"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.lastName}
                                 />
-                                {errors.lastName && touched.lastName ? (
+                                {formik.errors.lastName && formik.touched.lastName ? (
                                     <p className="text-danger">
-                                        {errors.lastName}{' '}
-                                    </p>) : null
+                                        {formik.errors.lastName}{' '}
+                                    </p>
+                                ) : null
                                 }
                             </div>
                             <div className="mb-3">
@@ -92,13 +92,15 @@ const Registration = () => {
                                     id="phone"
                                     name="phone"
                                     className="form-control"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.phone}
                                 />
-                                 {errors.phone && touched.phone ? (
+                                {formik.errors.phone && formik.touched.phone ? (
                                     <p className="text-danger">
-                                        {errors.phone}
-                                    </p>) : null
+                                        {formik.errors.phone}{' '}
+                                    </p>
+                                ) : null
                                 }
                             </div>
                             <div className="mb-3">
@@ -111,15 +113,16 @@ const Registration = () => {
                                     id="email"
                                     name="email"
                                     className="form-control"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.email}
                                 />
-                                {errors.email &&  (
+                                {formik.errors.email && formik.touched.email ? (
                                     <p className="text-danger">
-                                        {errors.email}
+                                        {formik.errors.email}{' '}
                                     </p>
-                                )
-                            }
+                                ) : null
+                                }
                             </div>
                             <div className="mb-3">
                                 <label
@@ -134,15 +137,16 @@ const Registration = () => {
                                     id="password"
                                     name="password"
                                     className="form-control"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.password}
                                 />
-                                {errors.password && touched.password ? (
+                                {formik.errors.password && formik.touched.password ? (
                                     <p className="text-danger">
-                                        {errors.password}
+                                        {formik.errors.password}
                                     </p>
-                                ):null
-                            }
+                                ) : null
+                                }
                             </div>
                             <div className="mb-3">
                                 <label
@@ -157,15 +161,16 @@ const Registration = () => {
                                     id="confirmPassword"
                                     name="confirmPassword"
                                     className="form-control"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.confirmPassword}
                                 />
-                                {errors.confirmPassword && touched.confirmPassword ? (
+                                {formik.errors.confirmPassword && formik.touched.confirmPassword ? (
                                     <p className="text-danger">
-                                        {errors.confirmPassword}
+                                        {formik.errors.confirmPassword}
                                     </p>
-                                ):null
-                            }
+                                ) : null
+                                }
                             </div>
                             <div className="mb-3">
                                 <div className="form-check">
@@ -174,8 +179,9 @@ const Registration = () => {
                                         type="checkbox"
                                         name="isChecked"
                                         id="check"
-                                        checked={values.isChecked}
-                                        onChange={handleChange}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.isChecked}
                                     />
                                     <label
                                         className="form-check-label"
@@ -184,12 +190,12 @@ const Registration = () => {
                                         Accept All Term And Condition?
                                         <span className="text-danger">*</span>
                                     </label>
-                                    {errors.isChecked && touched.isChecked ? (
+                                    {formik.errors.isChecked && formik.touched.isChecked ? (
                                         <p className="text-danger">
-                                            {errors.isChecked}{' '}
+                                            {formik.errors.isChecked}{' '}
                                         </p>
-                                    ): null
-                                }
+                                    ) : null
+                                    }
                                 </div>
                             </div>
                             <button
