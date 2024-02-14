@@ -1,4 +1,4 @@
-import {combineReducers, configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authSlice from "./AuthSlice";
@@ -15,8 +15,8 @@ const store = configureStore({
 });
 const persistor = persistStore(store);
 export { store, persistor };
-export type { RootState }; 
-export {};
+export type { RootState };
+export { };
 
 
 

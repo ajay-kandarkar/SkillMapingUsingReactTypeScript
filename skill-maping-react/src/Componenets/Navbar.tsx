@@ -3,7 +3,7 @@ import Logout from './LogoutModel';
 const Navbar = () => {
   const navigate = useNavigate();
   return (
-    <div className='d-flex justify-content-between '>
+    <div className='d-flex justify-content-between shadow  mb-3 bg-white rounded"'>
       <div>
         <nav className="navbar navbar-expand-sm  p-0" >
           <Link to="/" className="navbar-brand ml-auto">
@@ -26,9 +26,16 @@ const Navbar = () => {
             </li>
             <li className="nav-item ml-auto" role="presentation">
               <button onClick={() => {
-                navigate('/listOfClient');
+                navigate('/listOfProjects');
               }} className="nav-link text-dark" id="project-tab" data-bs-toggle="pill" data-bs-target="#projects" type="button" role="tab" aria-controls="projects" aria-selected="false">
                Projects
+              </button>
+            </li>
+            <li className="nav-item ml-auto" role="presentation">
+              <button onClick={() => {
+                navigate('/listOfClient');
+              }} className="nav-link text-dark" id="clients-tab" data-bs-toggle="pill" data-bs-target="#clients" type="button" role="tab" aria-controls="projects" aria-selected="false">
+               Clients
               </button>
             </li>
           </ul>
@@ -42,8 +49,10 @@ const Navbar = () => {
           </div>
           <div className="tab-pane fade" id="projects" role="tabpanel" aria-labelledby="projects">
             <h5 className='p-2 text-info'>Projects</h5>
+          </div> 
+           <div className="tab-pane fade" id="clients" role="tabpanel" aria-labelledby="clients">
+            <h5 className='p-2 text-info'>Clients</h5>
           </div>
-
         </div>
       </div>
       <div>

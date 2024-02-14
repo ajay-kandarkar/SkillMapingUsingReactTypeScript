@@ -2,18 +2,34 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import '../App.css'
 import axios from 'axios';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 interface EditProjectsModelProps {
   userId: number;
+  initialUserInformation: {
+    client_name: string;
+    project_name: string;
+    skill_name: number;
+    description: string;
+};
   onEdit: (editedData: any) => void;
 }
 
 const EditProjectsModel: React.FC<EditProjectsModelProps> = (props) => {
+  const [show, setShow] = useState(false);
+  const handleEditIcon = () => {
+    setShow(true)
+  }
 
-  const [editedData, setEditedData] = useState<any>({
-    project_name: '',
-    description: '',
-    skill_id: '',
-    client_id: '',
+  const handleClose = () => {
+    setShow(false)
+  }
+
+  const [editeProject, setediteProject] = useState<any>({
+    project_name: props.initialUserInformation.project_name,
+    description: props.initialUserInformation.description,
+    skill_id: props.initialUserInformation.skill_name,
+    client_id: props.initialUserInformation.client_name,
   });
 
   interface Iskill {
@@ -28,11 +44,9 @@ const EditProjectsModel: React.FC<EditProjectsModelProps> = (props) => {
 
   const [skill, setSkill] = useState<[]>([]);
   const [client, setClient] = useState<[]>([]);
-  const [loadingSkill, setLoadingSkill] = useState<boolean>(true);
-  const [loadingClient, setLoadingClient] = useState<boolean>(true);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setEditedData((prevData: any) => ({
+    setediteProject((prevData: any) => ({
       ...prevData,
       [name]: value,
     }));
@@ -40,19 +54,17 @@ const EditProjectsModel: React.FC<EditProjectsModelProps> = (props) => {
 
   const handleEdit = async () => {
     try {
-       
-      await axios.put(`${process.env.REACT_APP_BASE_URL}/update-project/${props.userId}`, editedData);
-      props.onEdit(editedData);
-      toast.success('Client updated successfully.');
-      setEditedData({
+      await axios.put(`${process.env.REACT_APP_BASE_URL}/update-project/${props.userId}`, editeProject);
+      props.onEdit(editeProject);
+      setediteProject({
         project_name: '',
         description: '',
         skill_id: '',
         client_id: '',
       })
     } catch (error) {
-      toast.error('An error occurred while updating the client.');
-      setEditedData({
+      toast.error('An error occurred while updating the projects.');
+      setediteProject({
         project_name: '',
         description: '',
         skill_id: '',
@@ -62,140 +74,115 @@ const EditProjectsModel: React.FC<EditProjectsModelProps> = (props) => {
   };
 
   const handelSkillchange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setEditedData((prevData: any) => ({
+    setediteProject((prevData: any) => ({
       ...prevData,
       [e.target.name]: e.target.value,
     }));
   };
 
   const handelClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setEditedData((prevData: any) => ({
+    setediteProject((prevData: any) => ({
       ...prevData,
       [e.target.name]: e.target.value,
     }));
   };
 
   useEffect(() => {
-    if (loadingSkill) {
-      axios.get(`${process.env.REACT_APP_BASE_URL}/get-all-skill`)
-        .then((response) => {
-          setSkill(response.data[0]);
-        })
-        .catch((error) => {
-          toast.error(error.response?.data?.error || 'An error occurred.');
-        })
-        .finally(() => setLoadingSkill(false));
-    }
-  }, [loadingSkill]);
+    axios.get(`${process.env.REACT_APP_BASE_URL}/get-all-skill`)
+      .then((response) => {
+        setSkill(response.data[0]);
+      })
+      .catch((error) => {
+        toast.error(error.response?.data?.error || 'An error occurred.');
+      })
 
+  }, []);
 
   useEffect(() => {
-    if (loadingClient) {
-      axios.get(`${process.env.REACT_APP_BASE_URL}/get-all-client`)
-        .then((response) => {
-          setClient(response.data[0]);
-        })
-        .catch((error) => {
-          toast.error(error.response?.data?.error || 'An error occurred.');
-        })
-        .finally(() => setLoadingClient(false));
-    }
-  }, [loadingClient]);
-
-  const handeleResetFieldData = () => {
-    setEditedData({
-      project_name: '',
-      description: '',
-      skill_id: '',
-      client_id: '',
-    })
-  }
+    axios.get(`${process.env.REACT_APP_BASE_URL}/get-all-client`)
+      .then((response) => {
+        setClient(response.data[0]);
+      })
+      .catch((error) => {
+        toast.error(error.response?.data?.error || 'An error occurred.');
+      })
+  }, []);
 
   return (
     <>
       <div>
-        <button type="button" className="btn fas fa-edit" onClick={handeleResetFieldData} data-bs-toggle="modal" data-bs-target="#editClient">
+        <button type="button" className="btn fas fa-edit" onClick={handleEditIcon} >
         </button>
       </div>
-      <div className="modal fade py-5" id="editClient">
-        <div className="modal-dialog modal-lg">
-          <div className="modal-content">
-            <div className="modal-body">
-              <div className="card">
-                <div className='card-header backgroundColor'>
-                  <h5>Update Client</h5>
-                </div>
-                <div className="card-body">
-                  <div className="d-flex justify-content-between">
-                    <div className="col-5">
-                      <label htmlFor="projectName">Project Name</label>
-                      <input
-                        className="form-control"
-                        id="projectName"
-                        name="project_name"
-                        value={editedData.project_name}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div className="col-5">
-                      <label htmlFor="description">Description</label>
-                      <input
-                        className="form-control"
-                        id="description"
-                        name="description"
-                        value={editedData.description}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-between my-3">
-                    <div className="col-4">
-                      <span>Skill Name</span>
-                      <select className="form-select"
-                        name='skill_id'
-                        onChange={(e) => handelSkillchange(e)}
-                        value={editedData.skill_id}                         >
-                        <option selected>Select Skill...</option>
-                        {
-                          skill && skill.length > 0 ?
-                            skill.map((item: Iskill) => (
-                              <option key={item.id} value={item.id}>{item.name}</option>
-                            )) :
-                            <option>No data</option>
-                        }
-                      </select>
-                    </div>
-                    <div className="col-4">
-                      <span>Client Name</span>
-                      <select className="form-select"
-                        name='client_id'
-                        onChange={(e) => handelClientChange(e)}
-                        value={editedData.client_id}                         >
-                        <option selected>Select Client...</option>
-                        {
-                          client && client.length > 0 ?
-                            client.map((item: Iclient) => (
-                              <option key={item.id} value={item.id}>{item.name}</option>
-                            )) :
-                            <option>No data</option>
-                        }
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn cancelButton" onClick={handeleResetFieldData} data-bs-dismiss="modal">
-                Close
-              </button>
-              <button type="button" className="btn backgroundColor" onClick={handleEdit} data-bs-dismiss="modal">
-                update
-              </button>
-            </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header className='backgroundColor' closeButton>
+          <Modal.Title>Edit Project</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="d-flex justify-content-between">
+            <Form.Group className="col-5">
+              <Form.Label htmlFor="projectName">Project Name</Form.Label>
+              <Form.Control
+                type="text"
+                id="projectName"
+                name="project_name"
+                value={editeProject.project_name}
+                onChange={handleInputChange as React.ChangeEventHandler<HTMLInputElement>}
+              />
+            </Form.Group>
+            <Form.Group className="col-5">
+              <Form.Label htmlFor="description">Description</Form.Label>
+              <Form.Control
+                type="text"
+                id="description"
+                name="description"
+                value={editeProject.description}
+                onChange={handleInputChange as React.ChangeEventHandler<HTMLInputElement>}
+              />
+            </Form.Group>
           </div>
-        </div>
-      </div>
+          <div className="d-flex justify-content-between my-3">
+            <Form.Group className="col-4">
+              <Form.Label>Skill Name</Form.Label>
+              <Form.Select
+                name="skill_id"
+                onChange={handelSkillchange}
+                value={editeProject.skill_id}
+              >
+                <option>Select Skill...</option>
+                {skill && skill.length > 0
+                  ? skill.map((item: Iskill) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))
+                  : <option>No data</option>}
+              </Form.Select>
+            </Form.Group>
+            <Form.Group className="col-4">
+              <Form.Label>Client Name</Form.Label>
+              <Form.Select
+                name="client_id"
+                onChange={handelClientChange}
+                value={editeProject.client_id}
+              >
+                <option>Select Client...</option>
+                {client && client.length > 0
+                  ? client.map((item: Iclient) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))
+                  : <option>No data</option>}
+              </Form.Select>
+            </Form.Group>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className='btn cancelButton' onClick={handleClose}> Close</button>
+          <button className='btn backgroundColor' onClick={handleEdit}>Update</button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

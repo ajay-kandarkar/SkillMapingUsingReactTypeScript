@@ -13,7 +13,7 @@ export default function Logout() {
   return (
     <>
       <button type="button" className="btn backgroundColor" data-bs-toggle="modal" data-bs-target="#logoutModal">
-      logout</button>
+      Logout</button>
       <div className="modal fade" id="logoutModal" tabIndex={-1} aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">

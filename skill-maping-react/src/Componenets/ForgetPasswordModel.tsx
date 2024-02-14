@@ -1,6 +1,7 @@
 import { useState } from "react"
 import axios from "axios";
 import { toast } from "react-toastify";
+import '../App.css'
 export default function ForgetPasswordModel() {
   const [email, setEmail] = useState<String>("")
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +25,7 @@ export default function ForgetPasswordModel() {
       <div className="modal fade" id="forgetPasswordBackdrop" aria-hidden="true"  >
         <div className="modal-dialog p-5">
           <div className="modal-content">
-            <div className="modal-header">
+            <div className="modal-header backgroundColor">
               <h5 className="modal-title" id="forgetPasswordBackdropLabel"> Forgot password</h5>
               <button type="reset" className="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
             </div>
@@ -35,7 +36,7 @@ export default function ForgetPasswordModel() {
                 </div>
                 <input type="email" className="form-control" id="email" aria-describedby="emailHelp" name="email" onChange={handleChange} />
               </div>
-              <input type='submit' className="btn btn-primary" value="Next" onClick={handleSubmit}/>
+              <input type='submit' className="btn backgroundColor" value="Click" onClick={handleSubmit} />
             </div>
           </div>
         </div>

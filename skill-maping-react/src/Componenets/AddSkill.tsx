@@ -4,7 +4,7 @@ import axios from "axios"
 import { toast } from "react-toastify"
 import ValidationSchema from './Validations/ValidationSchemaAddSkill';
 
-const AddSkill = () => {
+const AddSkill = ({ onUpdateSkills } :any) => {
     const initialValues = {
         name: "",
         description: "",
@@ -19,18 +19,18 @@ const AddSkill = () => {
                     name: values.name || "",
                     description: values.description || ""
                 });
-                toast.success(response.data.message);
                 resetForm();
+                onUpdateSkills(response)
             } catch (error: any) {
                 toast.error(error.response?.data?.error || 'An error occurred.');
             }
         },
     });
-
+     
     return (
         <>
             <div>
-                <button className="btn cancelButton" data-bs-toggle="modal" onClick={() => formik.handleReset} data-bs-target="#addskill">Add Skill</button>
+                <button className="btn cancelButton my-4" data-bs-toggle="modal" onClick={() => formik.handleReset} data-bs-target="#addskill">Add Skill</button>
             </div>
             <div className="modal fade" id="addskill">
                 <div className="modal-dialog">
@@ -46,7 +46,7 @@ const AddSkill = () => {
                                 <div className="mb-3">
                                     <label htmlFor="name" className="form-label">Name <span className='text-danger'>*</span></label>
                                     <input type="text" id="name"
-                                      className={`form-control ${formik.touched.name && formik.errors.name ? 'is-invalid' : ''}`}
+                                        className={`form-control ${formik.touched.name && formik.errors.name ? 'is-invalid' : ''}`}
                                         name="name"
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import ForgetPasswordModel from './ForgetPasswordModel';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { login } from '../Store/AuthSlice';
 const Login: React.FC = () => {
     interface IloginInformation {
@@ -38,15 +38,16 @@ const Login: React.FC = () => {
     return (
         <>
             <div className='container col-md-4 col-sm-8 col-12 m-3 p-3 mx-auto p-5'>
-                <div className='card cardBagroundcolor'>
+                <div className='card '>
                     <form>
-                        <div className='card-header text-center'>
+                        <div className='card-header text-center backgroundColor'>
                             <h2>Login</h2>
                         </div>
                         <div className='card-body'>
                             <div className="mb-3">
                                 <label className="form-label" htmlFor="email">Email</label>
-                                <input type="email" id="email" name="email" className="form-control" onChange={handleChange} />
+                                <input type="email" id="email" name="email" className="form-control" onChange={handleChange} 
+                                autoFocus/>
                             </div>
                             <div className="mb-3">
                                 <label className="form-label" htmlFor="password">Password</label>
@@ -58,7 +59,7 @@ const Login: React.FC = () => {
                                 </div>
                             </div>
                             <div className='text-end'>
-                                <button type="button" className="btn btn-primary btn-block mb-3" onClick={handleSubmit}>Sign in</button>
+                                <button type="button" className="btn cancelButton btn-block mb-3" onClick={handleSubmit}>Sign in</button>
                             </div>
                             <p className="text-center">Not a member? <a href="/registration">Register</a></p>
                         </div>

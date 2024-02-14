@@ -2,6 +2,7 @@ import { useFormik } from 'formik';
 import ValidationSchema from './Validations/ValidationSchema';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import '../App.css'
 const Registration = () => {
     const initialValues = {
         firstName: '',
@@ -38,7 +39,7 @@ const Registration = () => {
             <div className="container col-md-4 col-sm-8 col-12 m-3 p-3 mx-auto p-5">
                 <div className="card">
                     <form onSubmit={formik.handleSubmit}>
-                        <div className="card-header text-center">
+                        <div className="card-header text-center backgroundColor">
                             <h4>Registration</h4>
                         </div>
                         <div className="card-body">
@@ -200,7 +201,7 @@ const Registration = () => {
                             </div>
                             <button
                                 type="submit"
-                                className="btn btn-primary btn-block mb-3"
+                                className="btn backgroundColor btn-block mb-3"
                             >
                                 Register
                             </button>

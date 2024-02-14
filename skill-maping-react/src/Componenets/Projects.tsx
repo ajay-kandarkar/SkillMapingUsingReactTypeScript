@@ -25,7 +25,8 @@ const Projects = () => {
         client_id: number;
         registration_id: number;
     }
-
+    
+    const [draftEditorContent, setDraftEditorContent] = useState<{ [key: string]: string }>({});
     const [skill, setSkill] = useState<Iskill[]>([]);
     const [client, setClient] = useState<Iclient[]>([]);
     const [statusValue, setStatusValue] = useState<boolean>();
@@ -37,8 +38,9 @@ const Projects = () => {
         status: false,
         skill_id: 0,
         client_id: 0,
-        registration_id: 1
+        registration_id: 4
     });
+              
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/get-all-skill`)
@@ -52,6 +54,7 @@ const Projects = () => {
             },)
     }, [skill])
 
+
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/get-all-client`)
             .then((response) => {
@@ -63,19 +66,19 @@ const Projects = () => {
                 }
             })
     }, [client])
+     
+    const draft_editor_content = JSON.stringify(draftEditorContent);
 
     const handleSubmit = async () => {
-        await axios.post(`${process.env.REACT_APP_BASE_URL}/add-projects`, {
-            project_name: projectInformation.project_name || "",
-            description: projectInformation.description || "",
-            status: projectInformation.status || "",
-            skill_id: projectInformation.skill_id || "",
-            client_id: projectInformation.client_id || "",
-            registration_id: projectInformation.registration_id || "",
-        })
+        const payload = {
+            ...projectInformation,
+            draft_editor_content
+          };
+        
+        await axios.post(`${process.env.REACT_APP_BASE_URL}/add-projects`, payload)
             .then((response) => {
                 if (response)
-                    toast.success("Project Succesfully Added")
+                    toast.success(response.data.message)
             })
             .catch((error) => {
                 if (error)
@@ -90,19 +93,23 @@ const Projects = () => {
             client_id: 0,
             registration_id: 0
         })
+        setDraftEditorContent({});
     }
+
     const handleInputChange = (fieldName: string, value: any) => {
         setProjectInformation({
             ...projectInformation,
             [fieldName]: value,
         });
     };
+
     const handelSkillchange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setProjectInformation((prevData: any) => ({
             ...prevData,
             [e.target.name]: e.target.value,
         }));
     };
+
     const handelClientChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setProjectInformation((prevData: any) => ({
             ...prevData,
@@ -118,6 +125,11 @@ const Projects = () => {
         });
     }
 
+    const updateSkills = (newSkills: any) => {
+        setSkill(skill);
+        toast.success(newSkills.data.message)
+    };
+
     const storedRegisterId = localStorage.getItem('registerid');
     const registerId = storedRegisterId !== null ? parseInt(storedRegisterId, 10) : 0;
     const handleClearInforamtaion = () => {
@@ -129,18 +141,33 @@ const Projects = () => {
             client_id: 0,
             registration_id: registerId
         })
-        navigate("/listOfClient")
+       setDraftEditorContent({})
+        navigate("/listOfProjects")
     }
+
+    const updateClient = (newClient: any) => {
+        setClient(newClient.data.client);
+        toast.success(newClient.data.message);
+    }
+
+    const handleEditorContentChange = (name: string, content: string) => {
+        setDraftEditorContent(prevState => ({
+          ...prevState,
+          [name]: content
+        }));
+      };
+
+    
     return (
         <>
             <div className="card">
                 <div className="card-header">
                     <div className="d-flex justify-content-end">
                         <div>
-                            <button type="submit" className="btn saveButton mx-1" onClick={handleSubmit} >save</button>
+                            <button type="submit" className="btn saveButton mx-1" onClick={handleSubmit} >Save</button>
                         </div>
                         <div>
-                            <button className="btn cancelButton" onClick={handleClearInforamtaion}>cancel</button>
+                            <button className="btn cancelButton" onClick={handleClearInforamtaion}>Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -183,7 +210,7 @@ const Projects = () => {
                             </select>
                         </div>
                         <div className="align-self-end">
-                            <AddSkill />
+                            <AddSkill onUpdateSkills={updateSkills} />
                         </div>
                         <div className="col-5">
                             <span >Client Name</span>
@@ -201,8 +228,8 @@ const Projects = () => {
                                 }
                             </select>
                         </div>
-                        <div className="align-self-end">
-                            <AddClient />
+                        <div className="align-self-end ">
+                            <AddClient onUpdateClient={updateClient} />
                         </div>
                     </div>
                 </div>
@@ -210,28 +237,28 @@ const Projects = () => {
                     <div className='card'>
                         <div className='d-flex justify-content-center'>
                             <div className="p-2">
-                                <DraftEditor name="Domain" />
+                                <DraftEditor name="Domain" onEditorContentChange={handleEditorContentChange} />
                             </div>
                             <div className="p-2">
-                                <DraftEditor name="Business Problem" />
+                                <DraftEditor name="Business Problem" onEditorContentChange={handleEditorContentChange} />
                             </div>
                             <div className="p-2">
-                                <DraftEditor name="Solution" />
+                                <DraftEditor name="Solution" onEditorContentChange={handleEditorContentChange} />
                             </div>
                         </div>
                         <div className="d-flex justify-content-center">
                             <div className="p-2">
-                                <DraftEditor name="Tech Stack" />
+                                <DraftEditor name="Tech Stack" onEditorContentChange={handleEditorContentChange}/>
                             </div>
                             <div className="p-2">
-                                <DraftEditor name="Design" />
+                                <DraftEditor name="Design" onEditorContentChange={handleEditorContentChange}/>
                             </div>
                             <div className="p-2">
-                                <DraftEditor name="Solution Highlites" />
+                                <DraftEditor name="Solution Highlites" onEditorContentChange={handleEditorContentChange}/>
                             </div>
                         </div>
                         <div className="p-2 col-4">
-                            <DraftEditor name="Business import" />
+                            <DraftEditor name="Business import" onEditorContentChange={handleEditorContentChange}/>
                         </div>
                     </div>
                 </div>

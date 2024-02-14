@@ -4,8 +4,8 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import ValidationSchema from './Validations/ValidationSchemaAddClient';
 
-const AddClient = () => {
-    
+const AddClient = ({onUpdateClient}:any) => {
+
   interface Icountry {
     id: number;
     name: string;
@@ -27,15 +27,15 @@ const AddClient = () => {
   const [domain, setDomain] = useState<Idomain[]>([]);
 
   const formik = useFormik({
-    initialValues : initialValues,
+    initialValues: initialValues,
     validationSchema: ValidationSchema,
-    onSubmit: async (values,{resetForm}) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/add-client`, values);
-        if(response)
-        toast.success("Client Added Succesfully")
+        if (response)
+        onUpdateClient(response)
          resetForm();
-      } catch (error:any) {
+      } catch (error: any) {
         if (error.response) {
           toast.error('Error occurred while adding client data');
         }
@@ -66,7 +66,7 @@ const AddClient = () => {
   return (
     <>
       <div>
-        <button className="btn cancelButton" data-bs-toggle="modal"  onClick={() => formik.handleReset}  data-bs-target="#addClient">
+        <button className="btn cancelButton my-4 mx-2" data-bs-toggle="modal" onClick={() => formik.handleReset} data-bs-target="#addClient">
           Add Client
         </button>
       </div>
@@ -124,7 +124,7 @@ const AddClient = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   >
-                    <option >Select Skill...</option>
+                    <option >Select Country...</option>
                     {country && country.length > 0 ? (
                       country.map((item: Icountry) => (
                         <option key={item.id} value={item.id}>
@@ -167,7 +167,7 @@ const AddClient = () => {
                   <button type="button" className="btn cancelButton" data-bs-dismiss="modal" onClick={formik.handleReset}>
                     Cancel
                   </button>
-                  <button type="submit" className="btn backgroundColor"  data-bs-dismiss="modal" onClick={() => formik.handleSubmit} disabled={!(formik.isValid && formik.dirty)}>
+                  <button type="submit" className="btn backgroundColor" data-bs-dismiss="modal" onClick={() => formik.handleSubmit} disabled={!(formik.isValid && formik.dirty)}>
                     Add Client
                   </button>
                 </div>

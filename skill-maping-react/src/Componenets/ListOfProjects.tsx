@@ -2,26 +2,28 @@ import { useEffect, useState } from 'react'
 import { toast } from "react-toastify";
 import axios from 'axios'
 import '../App.css'
-import AddClient from './AddClient';
-import DeleteClientModel from './DeleteClientModel';
-import EditClinetModel from './EditClinetModel';
-
-const ListOfClient = () => {
+import { useNavigate } from 'react-router-dom';
+import DeleteProjectsModel from './DeleteProjectsModel';
+import EditProjectsModel from './EditProjectsModel';
+const ListOfProjects = () => {
     interface ClientDetails {
         id: number,
-        name: string;
-        location: string;
-        country_name: string;
-        domain_name: string;
+        client_name: string;
+        project_name: string;
+        skill_name: number;
+        description: string;
+        draft_editor_content : string;
     }
 
     const [searchClient, setsearchClient] = useState("");
     const [clientDetails, setClientDetails] = useState<ClientDetails[]>([]);
     const [entries, setEntries] = useState<number>(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/get-all-client`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/get-allProjects`)
             .then((response) => {
+                console.log("Get all Project : ",response.data[0])
                 setClientDetails(response.data[0]);
                 setEntries(response.data[0].length);
             })
@@ -38,23 +40,18 @@ const ListOfClient = () => {
     };
 
     const handleEdit = async (editedData: any) => {
-        setClientDetails(prevClientDetails => {
-            return prevClientDetails.map(user =>
-                user.id === editedData.userId ? { ...user, ...editedData } : user
-            );
-        });
-        window.location.reload()
+        const updatedClientDetails = clientDetails.map((user) =>
+            user.id === editedData.userId ? { ...user, ...editedData } : user
+        );
+        setClientDetails(updatedClientDetails);
+        window.location.reload();
     };
-    const updateClient = (newClient : any) => {
-        setClientDetails([...clientDetails,newClient.data.client])
-        window.location.reload()
-    }
-
+       
     return (
         <>
             <div className='card'>
                 <div className='card-header'>
-                    <h4><b>Client List</b></h4>
+                    <h4><b>Project List</b></h4>
                 </div>
                 <div className='card-body'>
                     <div className="d-md-flex justify-content-between d-sm-block">
@@ -71,39 +68,37 @@ const ListOfClient = () => {
                                 <input type="text" className="form-control my-4" id="search" placeholder="Search"
                                     onChange={(e) => setsearchClient(e.target.value)} />
                             </div>
-                            <AddClient onUpdateClient={updateClient} />
+                            <button className="btn backgroundColor m-auto mx-2 " onClick={() => { navigate("/projects") }}>+ Add Project</button>
                         </div>
-
-
                     </div>
                     <div>
                         <table className="table">
                             <thead>
                                 <tr className='backgroundColor'>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Country</th>
-                                    <th scope="col">Domain</th>
+                                    <th scope="col">Client</th>
+                                    <th scope="col">Skill</th>
+                                    <th scope="col">Description</th>
                                     <th scope="col" className="px-4">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {clientDetails
                                     .filter((item) => {
-                                        return searchClient === '' ? true : item.name.includes(searchClient);
+                                        return searchClient === '' ? true : item.project_name.includes(searchClient);
                                     })
                                     .map((user, index) => (
                                         <tr key={index}>
-                                            <td>{user.name}</td>
-                                            <td>{user.location}</td>
-                                            <td>{user.country_name}</td>
-                                            <td>{user.domain_name}</td>
+                                            <td>{user.project_name}</td>
+                                            <td>{user.client_name}</td>
+                                            <td>{user.skill_name}</td>
+                                            <td>{user.description}</td>
                                             <td className="d-flex">
                                                 <div className="mx-3">
-                                                    <EditClinetModel userId={user.id} intialClientInformation={user} onEdit={(editedData) => handleEdit(editedData)} />
+                                                    <EditProjectsModel userId={user.id}  initialUserInformation={user} onEdit={(editedData) => handleEdit(editedData)} />
                                                 </div>
                                                 <div>
-                                                    <DeleteClientModel userId={user.id} onDelete={handleDelete} />
+                                                    <DeleteProjectsModel userId={user.id} onDelete={handleDelete} />
                                                 </div>
                                             </td>
                                         </tr>
@@ -117,4 +112,6 @@ const ListOfClient = () => {
     )
 }
 
-export default ListOfClient;
+export default ListOfProjects
+
+

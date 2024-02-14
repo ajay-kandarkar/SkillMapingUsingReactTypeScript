@@ -1,0 +1,58 @@
+.styleMarginLeft{
+    margin-left: '5px'; 
+  }
+ 
+  .backgroundColor {
+    background-color: BlueViolet;
+    color: white;
+    &:hover {
+      color: white;
+    }
+}
+
+.close {
+  float: right;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  filter: alpha(opacity=20);
+  opacity: .2;
+}
+
+.navLinks{
+  color: white;
+}
+
+.navBagroundColor{
+  background-color: blueviolet;
+}
+
+.saveButton{
+  background-color: BlueViolet;
+  color: white;
+  &:hover {
+    color: white;
+  }
+}
+
+.cancelButton{
+  border: 1px solid blueviolet;
+  color: blueviolet;
+  &:hover {
+    color: blueviolet;
+  }
+}
+
+.cardBagroundcolor{
+  background-color: aliceblue;
+}
+
+.AddClient{
+  background-color: BlueViolet;
+  color: white;
+  &:hover {
+    color: white;
+  }
+}

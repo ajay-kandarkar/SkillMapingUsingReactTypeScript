@@ -26,6 +26,7 @@ export default function RegisterUserInformation() {
     axios.get(`${process.env.REACT_APP_BASE_URL}/get-register-user`)
       .then((response) => {
         setRegisterUser(response.data[0]);
+        console.log(response.data[0]);
         localStorage.setItem('registerid', `${registerUser[0].id}`);
       })
       .catch((error) => {
